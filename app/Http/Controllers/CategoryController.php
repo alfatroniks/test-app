@@ -13,17 +13,12 @@ class CategoryController extends Controller
     {
         $locale = App::getLocale();
 
-        $categories = CategoryTranslate::where('lang_code', $locale)->with('category')->get();
+        $categories = CategoryTranslate::where('lang_code', $locale)
+                        ->with('category')
+                        ->get()
+                        ->keyBy('category_id');
 
-
-        //todo do with create format data
-
-        $parents = [];
-        foreach ($categories as $category) {
-            $parents[$category->category_id] = $category->name;
-        }
-
-        return view('categories', ['categories' => $categories, 'parents' => $parents ]);
+        return view('categories', ['categories' => $categories]);
     }
 
     public function store(Request $request)

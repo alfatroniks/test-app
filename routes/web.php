@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -15,10 +16,7 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/{locale}', [CategoryController::class, 'index'])->name('category.index');
-Route::post('/{locale}', [CategoryController::class, 'store'])->name('category.save');
-
-
-Route::get('/setLocale/{locale}', function (string $locale) {
-
+Route::group(['prefix' => Localization::getLocale()], function () {
+    Route::get('/{locale?}', [CategoryController::class, 'index'])->name('category.index');
+    Route::post('/{locale?}', [CategoryController::class, 'store'])->name('category.save');
 });
